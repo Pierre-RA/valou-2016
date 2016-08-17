@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Valentin Vitus : graphiste indépendant - spécialiste sécurité">
+    <meta name="keywords" content="graphisme, graphiste, valentin vitus, indépendant, Genève">
+    <meta name="author" content="Valentin Vitus">
+    <link rel="icon" href="{{image('sigle_noir_ns.png')}}">
+    <title>{{ app.config.get('general/sitename') }}</title>
+    <link rel="stylesheet" href="{{paths.theme}}css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{paths.theme}}css/portofolio.css" />
+    <script src="https://use.fontawesome.com/e100ab6618.js"></script>
+    {% setcontent portofolio = 'portofolio' %}
+    {% setcontent cv = 'page/cv' %}
+    {% setcontent contact = 'page/contact' %}
+    {% setcontent pages = 'pages' %}
+  </head>
+
+  <body>
+    <header class="light-grey">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <ul class="nav navbar-nav grey relative">
+          <li>
+            <a href="/">
+              <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="Valentin Vitus - Home" class="vv" />
+            </a>
+          </li>
+          <li id="moving-title" class="v-center"></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right relative">
+          <li class="v-center"><a href="#" id="goToCV">CV</a></li>
+          <li class="v-center"><a href="#" id="goToContact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="portofolio">
+      {% if portofolio %}
+        {% for asset in portofolio %}
+        <section class="section" data-section-name="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');">
+        </section>
+        {% endfor %}
+      {% else %}
+        <section>
+          Empty
+        </section>
+      {% endif %}
+      {% if cv %}
+      <section data-section-name="{{cv.slug}}" class="section padded contact">
+        <div class="content">
+          {{markdown(cv.body)}}
+        </div>
+      </section>
+      {% endif %}
+      {% if contact %}
+      <section data-section-name="{{contact.slug}}" class="section padded contact">
+        <div>
+          {{markdown(contact.body)}}
+        </div>
+      </section>
+      {% endif %}
+    </div>
+
+    <script src="{{ paths.theme }}js/jquery.min.js"></script>
+    <script src="{{ paths.theme }}js/bootstrap.min.js"></script>
+    <script src="{{ paths.theme }}js/jquery.scrollify.min.js"></script>
+    <script>
+      $(function () {
+        var titles = [];
+        {% if portofolio %}
+          {% for asset in portofolio %}
+          titles.push('{{asset.title}}');
+          {% endfor %}
+          {% if cv %}
+          titles.push('{{cv.title}}');
+          {% endif %}
+          {% if contact %}
+          titles.push('{{contact.title}}');
+          {% endif %}
+          $('#moving-title').html(titles[0]);
+        {% endif %}
+        $.scrollify({
+          section: '.section',
+          setHeight: false,
+          after: function(i, panels) {
+            $('#moving-title').html(titles[i]);
+            if (titles[i] === '{{cv.title}}') {
+              $('#goToCV').addClass('underline');
+              $('#goToContact').removeClass('underline');
+            }
+            else if (titles[i] === '{{contact.title}}') {
+              $('#goToContact').addClass('underline');
+              $('#goToCV').removeClass('underline');
+            }
+            else {
+              $('#goToCV').removeClass('underline');
+              $('#goToContact').removeClass('underline');
+            }
+          }
+        });
+        $('#goToCV').click(function() {
+          $.scrollify.move('#cv');
+        });
+        $('#goToContact').click(function() {
+          $.scrollify.move('#contact');
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,97 @@
+@font-face {
+  font-family: 'BrownRegular';
+  src: url('../fonts/Brown-Regular.otf');
+}
+html,
+body {
+  height: 100%;
+  background-color: black;
+  font-family: 'BrownRegular', sans-serif;
+  font-size: 16pt;
+  line-height: 20pt;
+}
+h1 {
+  font-size: 30pt;
+}
+a {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: rgb(215,215,215);
+  text-decoration: underline;
+}
+body {
+  color: white;
+  overflow: hidden;
+}
+.center {
+  text-align: center;
+}
+.site-container {
+  width: 100%;
+  height: 100%; /* For at least Firefox */
+  min-height: 100%;
+  position: relative;
+}
+.logo {
+  height: 150px;
+  margin-bottom: 50px;
+}
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+  .button, .card {
+    display: none;
+  }
+  .container {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+    margin: 0;
+    padding: 0;
+  }
+  .container p {
+    margin-top: 50px;
+  }
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+  .button {
+    display: block;
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+  }
+  .card {
+    display: block;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    margin: 0;
+    padding: 0;
+  }
+  .container h1 {
+    padding-left: 20px;
+  }
+  .container p {
+    display: none;
+  }
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+
+}
