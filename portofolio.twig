@@ -31,8 +31,8 @@
           <li id="moving-title" class="v-center"></li>
         </ul>
         <ul class="nav navbar-nav navbar-right relative menu">
-          <li data-menuanchor="cv" class="v-center"><a href="#cv">CV</a></li>
-          <li data-menuanchor="contact" class="v-center"><a href="#contact">Contact</a></li>
+          <li data-menuanchor="home/cv" class="v-center"><a href="#home/cv">CV</a></li>
+          <li data-menuanchor="home/contact" class="v-center"><a href="#home/contact">Contact</a></li>
         </ul>
       </nav>
       <a href="/" class="visible-xs-block visible-sm-block logo-alone">
@@ -41,9 +41,29 @@
     </header>
     <div class="portofolio">
       <div class="section contact" data-anchor="home" class="home">
-        <div class="h-center">
-          <h1>{{ app.config.get('general/sitename') }}</h1>
-          <p>{{ app.config.get('general/payoff') }}</p>
+        <div class="slide" data-anchor="title">
+          <div class="h-center">
+            <h1>{{ app.config.get('general/sitename') }}</h1>
+            <p>{{ app.config.get('general/payoff') }}</p>
+          </div>
+        </div>
+        <div class="slide hidden-xs hidden-sm" data-anchor="cv">
+          {% if cv %}
+          <div data-anchor="{{cv.slug}}" class="section fp-auto-height padded contact">
+            <div class="content">
+              {{markdown(cv.body)}}
+            </div>
+          </div>
+          {% endif %}
+        </div>
+        <div class="slide hidden-xs hidden-sm" data-anchor="contact">
+          {% if contact %}
+          <div data-anchor="{{contact.slug}}" class="section text-top padded contact">
+            <div class="content">
+              {{markdown(contact.body)}}
+            </div>
+          </div>
+          {% endif %}
         </div>
       </div>
       {% if portofolio %}
@@ -51,15 +71,8 @@
         <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
         {% endfor %}
       {% endif %}
-      {% if cv %}
-      <div data-anchor="{{cv.slug}}" class="section fp-auto-height padded contact">
-        <div class="content">
-          {{markdown(cv.body)}}
-        </div>
-      </div>
-      {% endif %}
       {% if contact %}
-      <div data-anchor="{{contact.slug}}" class="section contact text-top">
+      <div data-anchor="{{contact.slug}}" class="section contact text-top hidden-md hidden-lg">
         <div class="padded">
           {{markdown(contact.body)}}
         </div>
@@ -78,9 +91,6 @@
           {% for asset in portofolio %}
           titles.push('{{asset.title}}');
           {% endfor %}
-          {% if cv %}
-          titles.push('{{cv.title}}');
-          {% endif %}
           {% if contact %}
           titles.push('{{contact.title}}');
           {% endif %}
