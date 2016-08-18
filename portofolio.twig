@@ -10,6 +10,7 @@
     <link rel="icon" href="{{image('sigle_noir_ns.png')}}">
     <title>{{ app.config.get('general/sitename') }}</title>
     <link rel="stylesheet" href="{{paths.theme}}css/bootstrap.min.css" />
+    <link rel="stylesheet" href="{{paths.theme}}css/jquery.fullpage.min.css"></script>
     <link rel="stylesheet" href="{{paths.theme}}css/portofolio.css" />
     <script src="https://use.fontawesome.com/e100ab6618.js"></script>
     {% setcontent portofolio = 'portofolio' %}
@@ -20,54 +21,57 @@
 
   <body>
     <header class="light-grey">
-      <nav class="navbar navbar-default navbar-fixed-top">
+      <nav class="navbar navbar-default navbar-fixed-top hidden-xs hidden-sm">
         <ul class="nav navbar-nav grey relative">
           <li>
             <a href="/">
-              <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="Valentin Vitus - Home" class="vv" />
+              <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" class="vv" />
             </a>
           </li>
           <li id="moving-title" class="v-center"></li>
         </ul>
-        <ul class="nav navbar-nav navbar-right relative">
-          <li class="v-center"><a href="#" id="goToCV">CV</a></li>
-          <li class="v-center"><a href="#" id="goToContact">Contact</a></li>
+        <ul class="nav navbar-nav navbar-right relative menu">
+          <li data-menuanchor="cv" class="v-center"><a href="#cv">CV</a></li>
+          <li data-menuanchor="contact" class="v-center"><a href="#contact">Contact</a></li>
         </ul>
       </nav>
+      <a href="/" class="visible-xs-block visible-sm-block logo-alone">
+        <img src="{{image('sigle_blanc_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" />
+      </a>
     </header>
     <div class="portofolio">
+      <div class="section contact" data-anchor="home">
+        <h1>{{ app.config.get('general/sitename') }}</h1>
+        <p>{{ app.config.get('general/payoff') }}</p>
+      </div>
       {% if portofolio %}
         {% for asset in portofolio %}
-        <section class="section" data-section-name="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');">
-        </section>
+        <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
         {% endfor %}
-      {% else %}
-        <section>
-          Empty
-        </section>
       {% endif %}
       {% if cv %}
-      <section data-section-name="{{cv.slug}}" class="section padded contact">
+      <div data-anchor="{{cv.slug}}" class="section fp-auto-height padded contact">
         <div class="content">
           {{markdown(cv.body)}}
         </div>
-      </section>
+      </div>
       {% endif %}
       {% if contact %}
-      <section data-section-name="{{contact.slug}}" class="section padded contact">
-        <div>
+      <div data-anchor="{{contact.slug}}" class="section contact">
+        <div class="padded">
           {{markdown(contact.body)}}
         </div>
-      </section>
+      </div>
       {% endif %}
     </div>
 
     <script src="{{ paths.theme }}js/jquery.min.js"></script>
     <script src="{{ paths.theme }}js/bootstrap.min.js"></script>
-    <script src="{{ paths.theme }}js/jquery.scrollify.min.js"></script>
+    <script src="{{ paths.theme }}js/scrolloverflow.min.js"></script>
+    <script src="{{ paths.theme }}js/jquery.fullpage.min.js"></script>
     <script>
       $(function () {
-        var titles = [];
+        var titles = ['home'];
         {% if portofolio %}
           {% for asset in portofolio %}
           titles.push('{{asset.title}}');
@@ -80,30 +84,16 @@
           {% endif %}
           $('#moving-title').html(titles[0]);
         {% endif %}
-        $.scrollify({
-          section: '.section',
-          setHeight: false,
-          after: function(i, panels) {
-            $('#moving-title').html(titles[i]);
-            if (titles[i] === '{{cv.title}}') {
-              $('#goToCV').addClass('underline');
-              $('#goToContact').removeClass('underline');
-            }
-            else if (titles[i] === '{{contact.title}}') {
-              $('#goToContact').addClass('underline');
-              $('#goToCV').removeClass('underline');
-            }
-            else {
-              $('#goToCV').removeClass('underline');
-              $('#goToContact').removeClass('underline');
-            }
-          }
-        });
-        $('#goToCV').click(function() {
-          $.scrollify.move('#cv');
-        });
-        $('#goToContact').click(function() {
-          $.scrollify.move('#contact');
+        $(document).ready(function() {
+          $('.portofolio').fullpage({
+            paddingTop: '75px',
+            menu: '.menu',
+            scrollOverflow: true,
+            afterLoad: function(anchorLink, index) {
+              var loadedSection = $(this);
+              $('#moving-title').html(titles[index - 1]);
+            },
+          });
         });
       });
     </script>

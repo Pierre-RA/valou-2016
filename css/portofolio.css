@@ -16,15 +16,7 @@ body {
   height: 75px;
 }
 
-.portofolio {
-  height: 100%;
-  padding-top: 75px;
-  box-sizing: border-box;
-}
-
-.portofolio section,
 .portofolio div {
-  height: 100%;
   background-size: cover;
   background-position: center center;
 }
@@ -33,21 +25,29 @@ body {
   padding: 125px 117px 50px 50px;
 }
 
+.fp-tableCell {
+  vertical-align: text-top;
+}
+
 .vv {
   height: 38px;
   padding-left: 50px;
 }
 
+.logo-alone {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 3000;
+}
+
+.logo-alone img {
+  height: 38px;
+}
+
 .contact {
   background-color: rgb(16,24,32);
   color: white;
-}
-
-.underline:after {
-  content: '';
-  height: 2px;
-  background: black;
-  display:block;
 }
 
 .navbar-right {
@@ -67,6 +67,17 @@ body {
 .v-center {
   top: 50%;
   transform: translateY(-50%);
+}
+
+.navbar-nav>.active>a {
+  background-color: transparent !important;
+}
+
+.menu .active:after {
+  content: '';
+  height: 2px;
+  background: rgb(16,24,32);
+  display:block;
 }
 
 .content {
