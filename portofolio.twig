@@ -40,9 +40,11 @@
       </a>
     </header>
     <div class="portofolio">
-      <div class="section contact" data-anchor="home">
-        <h1>{{ app.config.get('general/sitename') }}</h1>
-        <p>{{ app.config.get('general/payoff') }}</p>
+      <div class="section contact" data-anchor="home" class="home">
+        <div class="h-center">
+          <h1>{{ app.config.get('general/sitename') }}</h1>
+          <p>{{ app.config.get('general/payoff') }}</p>
+        </div>
       </div>
       {% if portofolio %}
         {% for asset in portofolio %}
@@ -57,7 +59,7 @@
       </div>
       {% endif %}
       {% if contact %}
-      <div data-anchor="{{contact.slug}}" class="section contact">
+      <div data-anchor="{{contact.slug}}" class="section contact text-top">
         <div class="padded">
           {{markdown(contact.body)}}
         </div>

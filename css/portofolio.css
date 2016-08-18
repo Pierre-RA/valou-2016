@@ -21,11 +21,7 @@ body {
   background-position: center center;
 }
 
-.padded {
-  padding: 125px 117px 50px 50px;
-}
-
-.fp-tableCell {
+.text-top .fp-tableCell {
   vertical-align: text-top;
 }
 
@@ -36,8 +32,8 @@ body {
 
 .logo-alone {
   position: fixed;
-  top: 10px;
-  left: 10px;
+  top: 15px;
+  left: 15px;
   z-index: 3000;
 }
 
@@ -67,6 +63,14 @@ body {
 .v-center {
   top: 50%;
   transform: translateY(-50%);
+}
+
+.h-center {
+  text-align: center;
+}
+
+.full-height: {
+  height: 100%;
 }
 
 .navbar-nav>.active>a {
@@ -105,4 +109,16 @@ body {
   display: inline-block;
   margin-left: -1.3em; /* same as padding-left set on li */
   width: 1.3em; /* same as padding-left set on li */
+}
+
+.padded {
+  border-top: white solid 1px;
+  padding: 15px;
+}
+
+@media only screen and (min-width : 992px) {
+  .padded {
+    border-top: none;
+    padding: 125px 117px 50px 50px;
+  }
 }
