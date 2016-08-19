@@ -115,6 +115,10 @@ body {
   width: 1.3em; /* same as padding-left set on li */
 }
 
+.content-contact p {
+  margin-bottom: 40px;
+}
+
 .padded {
   border-top: white solid 1px;
   padding: 15px;
@@ -123,6 +127,6 @@ body {
 @media only screen and (min-width : 992px) {
   .padded {
     border-top: none;
-    padding: 125px 117px 50px 50px;
+    padding: 50px 117px 50px 50px;
   }
 }

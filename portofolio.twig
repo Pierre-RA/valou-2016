@@ -24,7 +24,7 @@
       <nav class="navbar navbar-default navbar-fixed-top hidden-xs hidden-sm">
         <ul class="nav navbar-nav grey relative">
           <li>
-            <a href="/">
+            <a href="#home/title">
               <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" class="vv" />
             </a>
           </li>
@@ -32,10 +32,10 @@
         </ul>
         <ul class="nav navbar-nav navbar-right relative menu">
           <li data-menuanchor="home/cv" class="v-center"><a href="#home/cv">CV</a></li>
-          <li data-menuanchor="home/contact" class="v-center"><a href="#home/contact">Contact</a></li>
+          <li data-menuanchor="contact" class="v-center"><a href="#contact">Contact</a></li>
         </ul>
       </nav>
-      <a href="/" class="visible-xs-block visible-sm-block logo-alone">
+      <a href="#home/title" class="visible-xs-block visible-sm-block logo-alone">
         <img src="{{image('sigle_blanc_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" />
       </a>
     </header>
@@ -47,34 +47,25 @@
             <p>{{ app.config.get('general/payoff') }}</p>
           </div>
         </div>
-        <div class="slide hidden-xs hidden-sm" data-anchor="cv">
-          {% if cv %}
-          <div data-anchor="{{cv.slug}}" class="section fp-auto-height padded contact">
+        {% if cv %}
+        <div class="slide" data-anchor="cv">
+          <div data-anchor="{{cv.slug}}" class="section fp-auto-height text-top padded contact">
             <div class="content">
-              {{markdown(cv.body)}}
+              {{cv.body}}
             </div>
           </div>
-          {% endif %}
-        </div>
-        <div class="slide hidden-xs hidden-sm" data-anchor="contact">
-          {% if contact %}
-          <div data-anchor="{{contact.slug}}" class="section text-top padded contact">
-            <div class="content">
-              {{markdown(contact.body)}}
-            </div>
-          </div>
-          {% endif %}
         </div>
       </div>
+      {% endif %}
       {% if portofolio %}
         {% for asset in portofolio %}
         <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
         {% endfor %}
       {% endif %}
       {% if contact %}
-      <div data-anchor="{{contact.slug}}" class="section contact text-top hidden-md hidden-lg">
-        <div class="padded">
-          {{markdown(contact.body)}}
+      <div data-anchor="{{contact.slug}}" class="section contact text-top">
+        <div class="padded content-contact">
+          {{contact.body}}
         </div>
       </div>
       {% endif %}
@@ -86,15 +77,18 @@
     <script src="{{ paths.theme }}js/jquery.fullpage.min.js"></script>
     <script>
       $(function () {
-        var titles = ['home'];
+        var titles = [];
+        titles.push('{{app.config.get('general/sitename')}}');
+        {% if cv %}
+          titles.push('{{cv.title}}');
+        {% endif %}
         {% if portofolio %}
           {% for asset in portofolio %}
-          titles.push('{{asset.title}}');
+            titles.push('{{asset.title}}');
           {% endfor %}
           {% if contact %}
-          titles.push('{{contact.title}}');
+            titles.push('{{contact.title}}');
           {% endif %}
-          $('#moving-title').html(titles[0]);
         {% endif %}
         $(document).ready(function() {
           $('.portofolio').fullpage({
@@ -103,7 +97,7 @@
             scrollOverflow: true,
             afterLoad: function(anchorLink, index) {
               var loadedSection = $(this);
-              $('#moving-title').html(titles[index - 1]);
+              $('#moving-title').html(titles[(index - 1)]);
             },
           });
         });
