@@ -97,7 +97,12 @@
             scrollOverflow: true,
             afterLoad: function(anchorLink, index) {
               var loadedSection = $(this);
-              $('#moving-title').html(titles[(index - 1)]);
+              // $('#moving-title').html(titles[(index - 1)]);
+              $('#moving-title').fadeOut('fast', function() {
+                $('#moving-title')
+                  .html(titles[(index - 1)])
+                  .fadeIn('slow');
+              });
             },
           });
         });
