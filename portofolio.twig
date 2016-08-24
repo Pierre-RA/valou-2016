@@ -1,119 +1,60 @@
-<!DOCTYPE html>
-<html lang="fr">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Valentin Vitus : graphiste indépendant - spécialiste sécurité">
-    <meta name="keywords" content="graphisme, graphiste, valentin vitus, indépendant, Genève">
-    <meta name="author" content="Valentin Vitus">
-    <link rel="icon" href="{{image('sigle_noir_ns.png')}}">
-    <title>{{ app.config.get('general/sitename') }}</title>
-    <link rel="stylesheet" href="{{paths.theme}}css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{paths.theme}}css/jquery.fullpage.min.css"></script>
-    <link rel="stylesheet" href="{{paths.theme}}css/portofolio.css" />
-    <script src="https://use.fontawesome.com/e100ab6618.js"></script>
-    {% setcontent portofolio = 'portofolio' %}
-    {% setcontent cv = 'page/cv' %}
-    {% setcontent contact = 'page/contact' %}
-    {% setcontent pages = 'pages' %}
-  </head>
+{% extends 'layout.twig' %}
 
-  <body>
-    <header class="light-grey">
-      <nav class="navbar navbar-default navbar-fixed-top hidden-xs hidden-sm">
-        <ul class="nav navbar-nav grey relative">
-          <li>
-            <a href="#home/title">
-              <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" class="vv" />
-            </a>
-          </li>
-          <li id="moving-title" class="v-center"></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right relative menu">
-          <li data-menuanchor="home/cv" class="v-center"><a href="#home/cv">CV</a></li>
-          <li data-menuanchor="contact" class="v-center"><a href="#contact">Contact</a></li>
-        </ul>
-      </nav>
-      <a href="#home/title" class="visible-xs-block visible-sm-block logo-alone">
-        <img src="{{image('sigle_blanc_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" />
-      </a>
-    </header>
-    <div class="portofolio">
-      <div class="section contact" data-anchor="home" class="home">
-        <div class="slide" data-anchor="title">
-          <div class="h-center">
-            <h1>{{ app.config.get('general/sitename') }}</h1>
-            <p>{{ app.config.get('general/payoff') }}</p>
-          </div>
-        </div>
-        {% if cv %}
-        <div class="slide" data-anchor="cv">
-          <div data-anchor="{{cv.slug}}" class="section fp-auto-height text-top padded contact">
-            <div class="content">
-              {{cv.body}}
-            </div>
-          </div>
-        </div>
+{% block body %}
+  {% setcontent portofolio = 'portofolio' %}
+  {% setcontent contact = 'page/contact' %}
+
+  <div class="portofolio">
+    {% if portofolio %}
+      {% for asset in portofolio %}
+      <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
+      {% endfor %}
+    {% else %}
+    <div class="section contact" data-anchor="home" class="home">
+      <div class="h-center">
+        <h1>{{ app.config.get('general/sitename') }}</h1>
+        <p>{{ app.config.get('general/payoff') }}</p>
       </div>
-      {% endif %}
-      {% if portofolio %}
-        {% for asset in portofolio %}
-        <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
-        {% endfor %}
-      {% endif %}
-      {% if contact %}
-      <div data-anchor="{{contact.slug}}" class="section contact text-top">
-        <div class="padded content-contact">
-          {{contact.body}}
-        </div>
-      </div>
-      {% endif %}
     </div>
+    {% endif %}
+    {% if contact %}
+    <div data-anchor="{{contact.slug}}" class="section contact text-top">
+      <div class="padded content-contact">
+        {{contact.body}}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endblock body %}
 
-    <script src="{{ paths.theme }}js/jquery.min.js"></script>
-    <script src="{{ paths.theme }}js/bootstrap.min.js"></script>
-    <script src="{{ paths.theme }}js/scrolloverflow.min.js"></script>
-    <script src="{{ paths.theme }}js/jquery.fullpage.min.js"></script>
-    <script>
-      $(function () {
-        var titles = [];
-        titles.push('{{app.config.get('general/sitename')}}');
-        {% if cv %}
-          titles.push('{{cv.title}}');
-        {% endif %}
-        {% if portofolio %}
-          {% for asset in portofolio %}
-            titles.push('{{asset.title}}');
-          {% endfor %}
-          {% if contact %}
-            titles.push('{{contact.title}}');
-          {% endif %}
-        {% endif %}
-        $(document).ready(function() {
-          $('.portofolio').fullpage({
-            paddingTop: '75px',
-            menu: '.menu',
-            scrollOverflow: true,
-            afterLoad: function(anchorLink, index) {
-              var loadedSection = $(this);
-              // $('#moving-title').html(titles[(index - 1)]);
-              $('#moving-title').fadeOut('fast', function() {
-                $('#moving-title')
-                  .html(titles[(index - 1)])
-                  .fadeIn('slow');
-              });
-            },
+{% block scripts %}
+<script>
+  $(function () {
+    var titles = [];
+    {% if portofolio %}
+      titles.push('{{app.config.get('general/sitename')}}');
+    {% endif %}
+    {% if portofolio %}
+      {% for asset in portofolio %}
+        titles.push('{{asset.title}}');
+      {% endfor %}
+    {% endif %}
+    $(document).ready(function() {
+      $('.portofolio').fullpage({
+        paddingTop: '75px',
+        menu: '.menu',
+        scrollOverflow: true,
+        afterLoad: function(anchorLink, index) {
+          var loadedSection = $(this);
+          // $('#moving-title').html(titles[(index - 1)]);
+          $('#moving-title').fadeOut('fast', function() {
+            $('#moving-title')
+              .html(titles[(index - 1)])
+              .fadeIn('slow');
           });
-        });
+        },
       });
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-      ga('create', 'UA-79549804-1', 'auto');
-      ga('send', 'pageview');
-    </script>
-  </body>
-</html>
+    });
+  });
+</script>
+{% endblock scripts %}

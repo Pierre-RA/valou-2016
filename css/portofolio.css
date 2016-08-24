@@ -124,6 +124,12 @@ body {
   padding: 15px;
 }
 
+.page {
+  min-height: 100%;
+  margin-top: 75px;
+  padding: 20px 50px 20px 20px;
+}
+
 @media only screen and (min-width : 992px) {
   .padded {
     border-top: none;

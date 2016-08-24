@@ -1,26 +1,22 @@
-{% extends 'partials/_master.twig' %}
+{% extends 'layout.twig' %}
 
-{% block main %}
+{% block body %}
+<div class="page contact">
+  {{record.body}}
+</div>
+{% endblock body %}
 
-    <h1>{{ record.title }}</h1>
-
-    {{ record.teaser }}
-
-    {% if record.image!="" %}
-        <a href="{{ image(record.image) }}">
-            <img src="{{ thumbnail(record.image, 740, 560) }}">
-        </a>
-    {% endif %}
-
-    {{ record.body }}
-
-    {# If there are repeaters, we should output them. #}
-    {{ fields(common = false, extended = false, repeaters = true) }}
-
-    {# Uncomment this if you wish to dump the entire record to the client, for debugging purposes.
-    {{ dump(record) }}
-    #}
-
-    {{ include('partials/_recordfooter.twig', { 'record': record, 'extended': true }) }}
-
-{% endblock main %}
+{% block scripts %}
+<script>
+  $(function () {
+    $('#moving-title').fadeOut('fast', function() {
+      $('#moving-title')
+        .html({{record.title}})
+        .fadeIn('slow');
+    });
+  });
+  {% if record.slug == 'cv' %}
+  $('#menu-cv').addClass('active');
+  {% endif %}
+</script>
+{% endblock scripts %}
