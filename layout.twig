@@ -20,7 +20,7 @@
       <nav class="navbar navbar-default navbar-fixed-top hidden-xs hidden-sm">
         <ul class="nav navbar-nav grey relative">
           <li>
-            <a href="{{path.root}}/#home">
+            <a href="{{path.root}}/" class="none">
               <img src="{{image('sigle_noir_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" class="vv" />
             </a>
           </li>
@@ -31,7 +31,7 @@
           <li data-menuanchor="contact" class="v-center"><a href="{{path.root}}/#contact">Contact</a></li>
         </ul>
       </nav>
-      <a href="#home/title" class="visible-xs-block visible-sm-block logo-alone">
+      <a href="/" class="visible-xs-block visible-sm-block logo-alone">
         <img src="{{image('sigle_blanc_ns.png')}}" alt="VV" title="{{ app.config.get('general/sitename') }}" />
       </a>
     </header>

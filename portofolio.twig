@@ -28,16 +28,18 @@
 {% endblock body %}
 
 {% block scripts %}
+{% setcontent portofolio = 'portofolio' %}
+{% setcontent contact = 'page/contact' %}
 <script>
   $(function () {
     var titles = [];
     {% if portofolio %}
-      titles.push('{{app.config.get('general/sitename')}}');
-    {% endif %}
-    {% if portofolio %}
       {% for asset in portofolio %}
         titles.push('{{asset.title}}');
       {% endfor %}
+    {% endif %}
+    {% if contact %}
+    titles.push('{{contact.title}}');
     {% endif %}
     $(document).ready(function() {
       $('.portofolio').fullpage({
@@ -45,6 +47,7 @@
         menu: '.menu',
         scrollOverflow: true,
         afterLoad: function(anchorLink, index) {
+          console.log(titles[(index - 1)]);
           var loadedSection = $(this);
           // $('#moving-title').html(titles[(index - 1)]);
           $('#moving-title').fadeOut('fast', function() {
