@@ -10,6 +10,7 @@ body {
   line-height: 30pt;
   font-size: 22pt;
   color: rgb(16,24,32);
+  background-color: rgb(16,24,32);
 }
 
 .navbar-fixed-top {
@@ -124,14 +125,15 @@ body {
   border-top: white solid 1px;
 }
 
-.page {
-  min-height: 100%;
-  margin-top: 75px;
-}
-
 .padded,
 .page {
   padding: 20px;
+}
+
+.page {
+  min-height: 100%;
+  margin-top: 82px;
+  border-top: white solid 1px;
 }
 
 .none {
@@ -140,6 +142,10 @@ body {
 }
 
 @media only screen and (min-width : 992px) {
+  body {
+    background-color: white;
+  }
+
   .padded {
     border-top: none;
   }
@@ -147,5 +153,10 @@ body {
   .padded,
   .page {
     padding: 50px 50px 50px 117px;
+  }
+
+  .page {
+    margin-top: 75px;
+    border: none;
   }
 }
