@@ -1,0 +1,19 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+<div class="page contact">
+  {{record.title}}
+</div>
+{% endblock body %}
+
+{% block scripts %}
+<script>
+  $(function () {
+    $('#moving-title').fadeOut('fast', function() {
+      $('#moving-title')
+        .html('{{record.title}}')
+        .fadeIn('slow');
+    });
+  });
+</script>
+{% endblock scripts %}

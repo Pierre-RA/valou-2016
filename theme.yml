@@ -1,12 +1,5 @@
 # Optional config file for the theme.
 
-# Variables that are in this file, can be used in your twig template like {{ theme.foo }}
-
-layout:
-  aside: right # left, right, none
-  aside_width: 4 # out of 12
-  main_width: 8 # out of 12
-  variant: centered # wide or centered
 
 # Template filenames. If you 're creating a theme for distribution, you can specify
 # the filenames of the templates here. The templates you will set in this config

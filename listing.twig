@@ -1,0 +1,28 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+{% set firstrecord = records|first %}
+<div class="page contact">
+<h1>{{firstrecord.contenttype.name}}</h1>
+<ul>
+{% for record in records %}
+  <li class="listing">
+    <a href="{{ record.link }}">{{ record.title }}</a>
+  </li>
+{% endfor %}
+</ul>
+</div>
+{% endblock body %}
+
+{% block scripts %}
+{% set firstrecord = records|first %}
+<script>
+  $(function () {
+    $('#moving-title').fadeOut('fast', function() {
+      $('#moving-title')
+        .html('{{firstrecord.contenttype.name}}')
+        .fadeIn('slow');
+    });
+  });
+</script>
+{% endblock scripts %}
