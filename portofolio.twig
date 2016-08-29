@@ -7,6 +7,9 @@
   <div class="portofolio">
     {% if portofolio %}
       {% for asset in portofolio %}
+      <style>
+      
+      </style>
       <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
       {% endfor %}
     {% else %}
@@ -49,7 +52,6 @@
         afterLoad: function(anchorLink, index) {
           console.log(titles[(index - 1)]);
           var loadedSection = $(this);
-          // $('#moving-title').html(titles[(index - 1)]);
           $('#moving-title').fadeOut('fast', function() {
             $('#moving-title')
               .html(titles[(index - 1)])

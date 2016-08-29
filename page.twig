@@ -1,7 +1,11 @@
 {% extends 'layout.twig' %}
 
 {% block body %}
+{% if record.slug == 'contact' %}
 <div class="page contact">
+{% else %}
+<div class="page contact content">
+{% endif %}
   {{record.body}}
 </div>
 {% endblock body %}
