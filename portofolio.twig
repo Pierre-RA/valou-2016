@@ -1,0 +1,63 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+  {% setcontent portofolio = 'portofolio' %}
+  {% setcontent contact = 'page/contact' %}
+
+  <div class="portofolio">
+    {% if portofolio %}
+      {% for asset in portofolio %}
+      <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
+      {% endfor %}
+    {% else %}
+    <div class="section contact" data-anchor="home" class="home">
+      <div class="h-center">
+        <h1>{{ app.config.get('general/sitename') }}</h1>
+        <p>{{ app.config.get('general/payoff') }}</p>
+      </div>
+    </div>
+    {% endif %}
+    {% if contact %}
+    <div data-anchor="{{contact.slug}}" class="section contact text-top">
+      <div class="padded content-contact">
+        {{contact.body}}
+      </div>
+    </div>
+    {% endif %}
+  </div>
+{% endblock body %}
+
+{% block scripts %}
+{% setcontent portofolio = 'portofolio' %}
+{% setcontent contact = 'page/contact' %}
+<script>
+  $(function () {
+    var titles = [];
+    {% if portofolio %}
+      {% for asset in portofolio %}
+        titles.push('{{asset.title}}');
+      {% endfor %}
+    {% endif %}
+    {% if contact %}
+    titles.push('{{contact.title}}');
+    {% endif %}
+    $(document).ready(function() {
+      $('.portofolio').fullpage({
+        paddingTop: '75px',
+        menu: '.menu',
+        scrollOverflow: true,
+        afterLoad: function(anchorLink, index) {
+          console.log(titles[(index - 1)]);
+          var loadedSection = $(this);
+          // $('#moving-title').html(titles[(index - 1)]);
+          $('#moving-title').fadeOut('fast', function() {
+            $('#moving-title')
+              .html(titles[(index - 1)])
+              .fadeIn('slow');
+          });
+        },
+      });
+    });
+  });
+</script>
+{% endblock scripts %}

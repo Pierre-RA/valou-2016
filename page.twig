@@ -1,0 +1,26 @@
+{% extends 'layout.twig' %}
+
+{% block body %}
+{% if record.slug == 'contact' %}
+<div class="page contact">
+{% else %}
+<div class="page contact content">
+{% endif %}
+  {{record.body}}
+</div>
+{% endblock body %}
+
+{% block scripts %}
+<script>
+  $(function () {
+    $('#moving-title').fadeOut('fast', function() {
+      $('#moving-title')
+        .html('{{record.title}}')
+        .fadeIn('slow');
+    });
+  });
+  {% if record.slug == 'cv' %}
+  $('#menu-cv').addClass('active');
+  {% endif %}
+</script>
+{% endblock scripts %}
