@@ -4,10 +4,25 @@
   {% setcontent portofolio = 'portofolio' %}
   {% setcontent contact = 'page/contact' %}
 
+  {% if portofolio %}
+  <style>
+    {% for asset in portofolio %}
+      .portofolio-{{asset.id}} {
+        background-image: url({{image(asset.image_mobile)}});
+      }
+      @media screen and (orientation: landscape) {
+        .portofolio-{{asset.id}} {
+          background-image: url({{image(asset.image)}});
+        }
+      }
+    {% endfor %}
+  </style>
+  {% endif %}
+
   <div class="portofolio">
     {% if portofolio %}
       {% for asset in portofolio %}
-      <div class="section" data-anchor="{{asset.slug}}" style="background-image: url('{{image(asset.image)}}');"></div>
+      <div class="section portofolio-{{asset.id}}" data-anchor="{{asset.slug}}"></div>
       {% endfor %}
     {% else %}
     <div class="section contact" data-anchor="home" class="home">
@@ -47,7 +62,6 @@
         menu: '.menu',
         scrollOverflow: true,
         afterLoad: function(anchorLink, index) {
-          console.log(titles[(index - 1)]);
           var loadedSection = $(this);
           // $('#moving-title').html(titles[(index - 1)]);
           $('#moving-title').fadeOut('fast', function() {
